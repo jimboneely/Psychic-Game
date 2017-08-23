@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Psychic Game</title>
+  <!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+
+
+  <style>
+    .container{
+      background-color: yellow;
+      border-style: solid;
+      border-color: black;
+      margin: 50px;
+      width: 960px;
+      height: 960px;
+    }
+
+    .words{
+      padding-left: 20px;
+      padding-top: 20px;
+      font-size: : 20px;
+    }
+    img{
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container" id="retry">
+  <h1 id="congrats"></h1>
+  <div class="words" id="game">
+    <p>Guess what letter I'm thinking of to evolve Abra (press key to start)</p>
+  </div>
+    <div id="evolve">
+   <img src="images/Abra.png" width="400" height="400">
+   </div> 
+
+  <script type="text/javascript">
+
+    // IMPORTANT VARIABLES
+    var wins = 0;
+    var losses = 0;
+    var guessTotal = 10;
+    var soFar = [];
+    var computerGuess = String.fromCharCode(Math.round(Math.random() * 26) + 97)
+    var congrats = "<h2><strong>YOU EVOLVED ABRA TO ALAKAZAM!</strong><h3>"
+
+    
+    //USE A FUNCTION TO GENERATE A COMPUTER LETTER SO YOU CAN CALL THE FUNCTION LATER IN THE IF STATEMENT!!
+        function getLetter(){
+      
+        computerGuess =String.fromCharCode(Math.round(Math.random() * 26) + 97);
+
+        };
+
+    //USE A FUNCTION TO RESET THE GUESSTOTAL!!
+
+        function resetGuess(){
+
+          guessTotal = 10;
+        }
+
+    //FUNCTION TO CHANGE THE ABRA IMAGE TO ALAKAZAM WE 
+        function evolve(){
+        document.getElementById("evolve").innerHTML = '<img src="images/Alakazam.png" />';
+        document.querySelector("#congrats").innerHTML = congrats;
+        }
+
+
+      // This function is run whenever the user presses a key.
+      document.onkeyup = function(event) {
+
+      // Determines which key was pressed.
+      var userGuess = event.key;
+
+
+      soFar.push(userGuess);
+      console.log(soFar);
+      var soFarString = soFar.join(', ');
+
+      
+      guessTotal--;
+
+      // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate number
+
+      if (userGuess === computerGuess) {
+        wins++;
+        getLetter();
+        resetGuess();
+      } else if (guessTotal === 0) {
+        losses++;
+        getLetter();
+        resetGuess();
+      };//else if (userGuess !== computerGuess) {};
+
+      if (guessTotal < 1) {
+        getLetter();
+      }; 
+
+
+        // Creating a variable to hold our new HTML. Our HTML now keeps track of the user and computer guesses, and wins/losses/ties.
+
+        var html =
+          "<p><strong>Guess what letter I'm thinking of to evolve Abra</strong></p>" +
+          "<p>Your Guesses so Far: " + soFarString + "</p>" +
+          //"<p>The computer chose: " + computerGuess + "</p>" +
+          "<p>Wins: " + wins + "</p>" +
+          "<p>Losses: " + losses + "</p>"+
+          "<p>Guesses Left: " + guessTotal + "</p>";
+
+        // Set the inner HTML contents of the #game div to our html string
+        document.querySelector("#game").innerHTML = html;
+        
+
+         if (wins === 1) {
+        
+          evolve();
+      }
+
+      };
+     
+  </script>
+
+  <!-- <script> -->
+      <!-- function myFunction() { -->
+          <!-- document.getElementById("retry").reset(); -->
+      <!-- } -->
+  <!-- </script> -->
+</div>
+
+</body>
+
+</html>
